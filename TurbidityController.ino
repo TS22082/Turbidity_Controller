@@ -8,21 +8,6 @@ int motorPin = 9;
 int motorValue = 0;
 int luxValue;
 
-void displaySensorDetails(void) {
-  sensor_t sensor;
-  tsl.getSensor(&sensor);
-  Serial.println("------------------------------------");
-  Serial.print  ("Sensor:       "); Serial.println(sensor.name);
-  Serial.print  ("Driver Ver:   "); Serial.println(sensor.version);
-  Serial.print  ("Unique ID:    "); Serial.println(sensor.sensor_id);
-  Serial.print  ("Max Value:    "); Serial.print(sensor.max_value); Serial.println(" lux");
-  Serial.print  ("Min Value:    "); Serial.print(sensor.min_value); Serial.println(" lux");
-  Serial.print  ("Resolution:   "); Serial.print(sensor.resolution); Serial.println(" lux");  
-  Serial.println("------------------------------------");
-  Serial.println("");
-  delay(500);
-}
-
 void configureSensor(void) {
   tsl.enableAutoRange(true); /* Auto-gain ... switches automatically between 1x and 16x */
   tsl.setIntegrationTime(TSL2561_INTEGRATIONTIME_13MS);      /* fast but low resolution */
@@ -43,7 +28,6 @@ void setup(void) {
     Serial.print("No TSL2561 detected ... Check your wiring or I2C ADDR!");
     while(1);
   }
-  displaySensorDetails();
   configureSensor();
   Serial.println("");
 }
