@@ -4,6 +4,10 @@
    
 Adafruit_TSL2561_Unified tsl = Adafruit_TSL2561_Unified(TSL2561_ADDR_FLOAT, 12345);
 
+int motorPin = 9;
+int motorValue = 0;
+int luxValue;
+
 void displaySensorDetails(void) {
   sensor_t sensor;
   tsl.getSensor(&sensor);
@@ -49,10 +53,19 @@ void loop(void) {
   tsl.getEvent(&event);
 
   if (event.light){
-    Serial.print(event.light); Serial.println(" lux");
+    // Serial.print(event.light); Serial.println(" lux");
+
+    luxValue = event.light;  
+    motorValue = map(luxValue, 0, 1023, 0, 255);
+    analogWrite(motorPin, motorValue);  
+    Serial.print("Lux Value = ");     
+    Serial.print(luxValue);
+    Serial.print(" motor = ");
+    Serial.println(motorValue);
+    delay(2);
   }
   else {
     Serial.println("Sensor overload");
   }
-  delay(250);
+  delay(250);    
 }
