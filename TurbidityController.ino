@@ -53,10 +53,8 @@ void loop(void) {
   tsl.getEvent(&event);
 
   if (event.light){
-    // Serial.print(event.light); Serial.println(" lux");
-
     luxValue = event.light;  
-    motorValue = map(luxValue, 0, 1023, 0, 255);
+    motorValue = map(luxValue, 0, 1023, 0, 255) - 255;
     analogWrite(motorPin, motorValue);  
     Serial.print("Lux Value = ");     
     Serial.print(luxValue);
