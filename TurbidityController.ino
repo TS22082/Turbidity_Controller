@@ -12,10 +12,10 @@ int luxValue;
 
 void configureSensor(void)
 {
-  tsl.enableAutoRange(true);                            /* Auto-gain ... switches automatically between 1x and 16x */
-  tsl.setIntegrationTime(TSL2561_INTEGRATIONTIME_13MS); /* fast but low resolution */
-  // tsl.setIntegrationTime(TSL2561_INTEGRATIONTIME_101MS);  /* medium resolution and speed */
-  // tsl.setIntegrationTime(TSL2561_INTEGRATIONTIME_402MS);  /* 16-bit data but slowest conversions */
+  tsl.enableAutoRange(true);                            // Auto-gain ... switches automatically between 1x and 16x
+  tsl.setIntegrationTime(TSL2561_INTEGRATIONTIME_13MS); // fast but low resolution 
+  // tsl.setIntegrationTime(TSL2561_INTEGRATIONTIME_101MS);  // medium resolution and speed 
+  // tsl.setIntegrationTime(TSL2561_INTEGRATIONTIME_402MS);  // 16-bit data but slowest conversions
 }
 
 void setup(void)
@@ -46,12 +46,14 @@ void loop(void)
   if (event.light)
   {
     luxValue = event.light;
-    pumpSpeedValue = 255 - map(luxValue, 0, 1023, 0, 255);
-    constrain(pumpSpeedValue, 100, 255); //constraint to make sure motor is never off
+    pumpSpeedValue = constrain(255 - map(luxValue, 0, 1023, 0, 255), 100, 255);
     analogWrite(pumpPin, pumpSpeedValue);
-    Serial.println("Lux Value: " + luxValue);
-    Serial.println("pump speed (0-255): " + pumpSpeedValue);
-    delay(2);
+    Serial.print("Lux Value: ");
+    Serial.println(luxValue);
+    Serial.print("Pump speed (0-255): ");
+    Serial.println(pumpSpeedValue);
+    Serial.println("---------------------");
+    delay(2000);
   }
   else
   {
